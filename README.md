@@ -1,7 +1,11 @@
 ## Description
-This project was developed using NestJS. Here we have a user login module with follow description:
--The user has specific endpoint to do login with email and password. After login, the user receives a valid token for 24hrs.
--For each endpint, except the login, the user shoud be send the valid access token.
+This project was developed using NestJS. Here we have a login module that allows the user to login in application.
+We also have a construction budget module that allows a user to create quotes.
+
+## Busines specification
+- The normal user can login, register new users, and create, list and update budgets;
+- The budget have (client name, adress, service type, materials [with price], labor price and total price);
+- The admin user can manage users and budgets. The administrator can access some reports.
 
 ## Endpoints
 ### method-description / endpoint  
@@ -12,6 +16,7 @@ This project was developed using NestJS. Here we have a user login module with f
 -GET User by id: /user/:id  
 -DEL Delete User: /user/:id  
 -PUT Update User: /user/:id  
+--------------------------
 
 
 ## Installation
