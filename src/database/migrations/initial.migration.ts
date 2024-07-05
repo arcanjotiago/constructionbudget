@@ -13,9 +13,10 @@ export class  InitialMigration implements MigrationInterface {
                     email text NOT NULL,
                     "password" text NOT NULL,
                     access_token text NULL,
+                    role text NOT NULL,
                     CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY (id)
-            )`
-        );
+            )
+        `);
         
         await queryRunner.query(
             `CREATE TABLE "auth"(
@@ -25,18 +26,29 @@ export class  InitialMigration implements MigrationInterface {
                 validity numeric NULL,
                 user_id uuid NULL,
                 CONSTRAINT "PK_7e416cf6172bc5aec04244f6459" PRIMARY KEY (id)
-            ) `
-        );
+            )
+        `);
 
         await queryRunner.query(
-            `CREATE INDEX access_token ON auth (access_token)`
-        );
-
+            `CREATE TABLE "order"(
+                id uuid DEFAULT uuid_generate_v4() NOT NULL,
+                created_at timestamptz DEFAULT now() NULL,
+                client_name text NULL,
+                address text NULL,
+                service_type text NULL,
+                materials text NULL,
+                labor_price money NULL,
+                amount money NULL,
+                user_id uuid NULL,
+                CONSTRAINT "PK_cace4a159ff9f2512dd42373761" PRIMARY KEY (id)
+            )
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`DROP TABLE "user"`);
         await queryRunner.query(`DROP TABLE "auth"`);
+        await queryRunner.query(`DROP TABLE "order"`);
     }
 
 }

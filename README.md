@@ -24,6 +24,11 @@ We also have a construction budget module that allows a user to create quotes.
 $ npm install
 ```
 
+## Building migration
+- After run initial migration, executing in your database that following comands for create two index:
+    - CREATE INDEX user_id ON "order" (user_id)
+    - CREATE INDEX access_token ON "auth" (access_token) 
+
 ## Running the app
 ```terminal
 # development

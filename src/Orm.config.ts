@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import { User } from './user/user.entity';
 import { Auth } from './auth/auth.entity';
 import { InitialMigration } from './database/migrations/initial.migration';
+
 dotenv.config();
 
 export function getConfig(){
@@ -14,7 +15,7 @@ export function getConfig(){
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [User, Auth],
-      migrations: [InitialMigration], 
+      migrations: [InitialMigration],
       synchronize: false,
     } as DataSourceOptions;
   }
