@@ -24,7 +24,7 @@ export class OrderController {
   }
 
   @Post('create')
-  createUser(@Body() createOrderDto: CreateOrderDto) {
+  createOrder(@Body() createOrderDto: CreateOrderDto) {
     return this.orderService.createOrder(createOrderDto);
   }
 
@@ -34,7 +34,7 @@ export class OrderController {
   }
 
   @Put(':id')
-  updateUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateOrderDto: UpdateOrderDto) {
+  updateOrder(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.updateOrder(tokenAuthorization, id, updateOrderDto);
   }
 
