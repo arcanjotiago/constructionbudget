@@ -24,8 +24,8 @@ export class OrderController {
   }
 
   @Post('create')
-  createOrder(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.createOrder(createOrderDto);
+  createOrder(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() createOrderDto: CreateOrderDto) {
+    return this.orderService.createOrder(tokenAuthorization, createOrderDto);
   }
 
   @Delete(':id')

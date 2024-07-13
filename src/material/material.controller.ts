@@ -24,8 +24,8 @@ export class MaterialController {
   }
 
   @Post('create')
-  createMaterial(@Body() createMaterialDto: CreateMaterialDto) {
-    return this.materialService.createMaterial(createMaterialDto);
+  createMaterial(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() createMaterialDto: CreateMaterialDto) {
+    return this.materialService.createMaterial(tokenAuthorization, createMaterialDto);
   }
 
   @Delete(':id')

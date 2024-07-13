@@ -48,12 +48,12 @@ export class MaterialService {
 //     }   
 //   }
     
-    async createMaterial(createMaterialDto: CreateMaterialDto): Promise<Material> {
+  async createMaterial(access_token:any, createMaterialDto: CreateMaterialDto): Promise<Material> {
 
-    //   const validateMail = await this.getUserEmail(createUserDto.email);
-    //   if(validateMail.status == 401){
-    //     return validateMail;
-    //   };
+      const getQuantityMaterials = await this.getMaterial(access_token); //parei aqui
+      if(validateMail.status == 401){
+        return validateMail;
+      };
       
       const material: Material = new Material();
       material.name = createMaterialDto.name;
