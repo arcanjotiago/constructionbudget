@@ -48,20 +48,38 @@ export class MaterialService {
 //     }   
 //   }
     
-  async createMaterial(access_token:any, createMaterialDto: CreateMaterialDto): Promise<Material> {
-
-      const getQuantityMaterials = await this.getMaterial(access_token); //parei aqui
-      if(validateMail.status == 401){
-        return validateMail;
-      };
+  async createMaterial(access_token:any, createMaterialDto: CreateMaterialDto): Promise<any> {
+    const tokenValidate:any = await this.authService.checkAccessToken(access_token);
+    
+    if (tokenValidate.status == 200){
+      const getMaterials:any = await this.materialRepository.query('SELECT count(*) FROM public.material');
+      
+      let codeGenerator =  Number(getMaterials[0].count);
+      codeGenerator++;
       
       const material: Material = new Material();
       material.name = createMaterialDto.name;
-    //   user.email = createUserDto.email;
-    //   user.password = createUserDto.password;
+      material.description = createMaterialDto.description;
+      material.value = createMaterialDto.value;
+      material.quantity = createMaterialDto.quantity;
+      material.code = codeGenerator;
       return this.materialRepository.save(material);
 
-  }
+      // return material;
+      
+
+    }
+
+
+    return tokenValidate;
+    }
+
+
+
+
+
+  
+
 
   async deleteMaterial(access_token:any, id: string): Promise<{ affected?: number }> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);

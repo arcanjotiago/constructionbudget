@@ -27,7 +27,7 @@ export class Order {
   @Column('money')
   amount: string;
 
-  @Column('UUID')
+  @Column('text')
   user_id: UUID;
 
 }

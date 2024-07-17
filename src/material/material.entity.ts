@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Timestamp, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Timestamp} from 'typeorm';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 
 @Entity()
