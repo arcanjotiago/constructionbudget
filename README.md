@@ -27,7 +27,7 @@ $ npm install
 ## Building migration
 - After run initial migration, executing in your database that following comands for create two index:
     - CREATE INDEX user_id_index ON "order" (user_id)
-    - CREATE INDEX material_code_index ON "material" (code)
+    - CREATE INDEX material_name_index ON "material" (name)
     - CREATE INDEX access_token_index ON "auth" (access_token) 
 
 ## Running the app

@@ -19,6 +19,7 @@ export class MaterialService {
     if (tokenValidate.status == 200){
       return this.materialRepository.find(); 
     }
+
     return tokenValidate;
   }
 
@@ -29,57 +30,23 @@ export class MaterialService {
       return this.materialRepository.findOneBy({ id });
     }
     return tokenValidate;
-    }
+  }
 
-//   async getUserEmail(email: any): Promise<any> {
-//     const checkEmailDuplicate = await this.userRepository.findOneBy( {email} );
-
-//     if(checkEmailDuplicate != null){
-//       if (checkEmailDuplicate.email == email){
-//         return {
-//           "message": "The email informed has used!, please! send the new email on requisition!",
-//           "status": 401
-//         }
-//       }
-//     }
-//     return {
-//       "message": "The send email not exist in database!",
-//       "status": 200
-//     }   
-//   }
-    
   async createMaterial(access_token:any, createMaterialDto: CreateMaterialDto): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      const getMaterials:any = await this.materialRepository.query('SELECT count(*) FROM public.material');
-      
-      let codeGenerator =  Number(getMaterials[0].count);
-      codeGenerator++;
-      
       const material: Material = new Material();
       material.name = createMaterialDto.name;
       material.description = createMaterialDto.description;
       material.value = createMaterialDto.value;
       material.quantity = createMaterialDto.quantity;
-      material.code = codeGenerator;
-      return this.materialRepository.save(material);
-
-      // return material;
       
-
+      return this.materialRepository.save(material);    
     }
-
-
+    
     return tokenValidate;
-    }
-
-
-
-
-
-  
-
+  }
 
   async deleteMaterial(access_token:any, id: string): Promise<{ affected?: number }> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
@@ -96,13 +63,35 @@ export class MaterialService {
     if (tokenValidate.status == 200){
       const material: Material = new Material();
       material.name = updateMaterialDto.name;
-    //   user.email = updateUserDto.email;
-    //   user.password = updateUserDto.password;
-    //   user.access_token = updateUserDto.access_token;
+      material.description = updateMaterialDto.description;
+      material.value = updateMaterialDto.value;
+      material.quantity = updateMaterialDto.quantity;
       return this.materialRepository.update(id, material)
     }
     return tokenValidate; 
   }
 
+  async getMaterialName(access_token:any, name: any): Promise<any> { //criar rota
+    const tokenValidate:any = await this.authService.checkAccessToken(access_token);
+    
+    if (tokenValidate.status == 200){
+      return this.materialRepository.findOneBy({ id });
+    }
+    return tokenValidate;
+  }
+    
+  //   const checkEmailDuplicate = await this.userRepository.findOneBy( {email} );
 
-}
+  //   if(checkEmailDuplicate != null){
+  //     if (checkEmailDuplicate.email == email){
+  //       return {
+  //         "message": "The email informed has used!, please! send the new email on requisition!",
+  //         "status": 401
+  //       }
+  //     }
+  //   }
+  //   return {
+  //     "message": "The send email not exist in database!",
+  //     "status": 200
+  //   }   
+  // }

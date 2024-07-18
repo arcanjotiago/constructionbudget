@@ -49,7 +49,6 @@ export class  InitialMigration implements MigrationInterface {
             `CREATE TABLE "material"(
                 id uuid DEFAULT uuid_generate_v4() NOT NULL,
                 created_at timestamptz DEFAULT now() NULL,
-                code numeric NULL,
                 name text NULL,
                 value money NULL,
                 description text NULL,

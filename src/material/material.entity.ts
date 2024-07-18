@@ -9,9 +9,6 @@ export class Material {
   @Column('timestamp with time zone')
   created_at: Timestamp;
   
-  @Column('numeric')
-  code: number;
-  
   @Column('text')
   name: string;
   
