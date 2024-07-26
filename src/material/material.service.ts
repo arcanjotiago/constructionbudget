@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
@@ -28,6 +28,17 @@ export class MaterialService {
     
     if (tokenValidate.status == 200){
       return this.materialRepository.findOneBy({ id });
+    }
+    return tokenValidate;
+  }
+
+  async getMaterialByName(access_token:any, materialName: any): Promise<any> {
+    const tokenValidate:any = await this.authService.checkAccessToken(access_token);
+    
+    if (tokenValidate.status == 200){
+      const getMaterialDatabase:any = await this.materialRepository.query(`SELECT * FROM public.material WHERE public.material.name like '%${materialName.name}%' `)
+
+      return getMaterialDatabase;    
     }
     return tokenValidate;
   }
@@ -66,32 +77,17 @@ export class MaterialService {
       material.description = updateMaterialDto.description;
       material.value = updateMaterialDto.value;
       material.quantity = updateMaterialDto.quantity;
-      return this.materialRepository.update(id, material)
+      const response:any = await this.materialRepository.update(id, material);
+
+      if(response.affected == 1){
+        return {
+          "status": 200,
+          "message": `O Update do item ${material.name} foi realizado com sucesso!`
+        }
+      }
+
     }
     return tokenValidate; 
   }
 
-  async getMaterialName(access_token:any, name: any): Promise<any> { //criar rota
-    const tokenValidate:any = await this.authService.checkAccessToken(access_token);
-    
-    if (tokenValidate.status == 200){
-      return this.materialRepository.findOneBy({ id });
-    }
-    return tokenValidate;
-  }
-    
-  //   const checkEmailDuplicate = await this.userRepository.findOneBy( {email} );
-
-  //   if(checkEmailDuplicate != null){
-  //     if (checkEmailDuplicate.email == email){
-  //       return {
-  //         "message": "The email informed has used!, please! send the new email on requisition!",
-  //         "status": 401
-  //       }
-  //     }
-  //   }
-  //   return {
-  //     "message": "The send email not exist in database!",
-  //     "status": 200
-  //   }   
-  // }
+}

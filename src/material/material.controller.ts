@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Headers, Patch, Post, Put } from '@nestjs/common';
+import { Controller, Get, Headers, HttpCode, Post, Put, Res} from '@nestjs/common';
 import { Body } from '@nestjs/common';
 import { Delete } from '@nestjs/common';
 import { Param } from '@nestjs/common';
@@ -23,6 +23,11 @@ export class MaterialController {
     return this.materialService.getMaterialId(tokenAuthorization, id);
   }
 
+  @Post('name')
+  getMaterialByName(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() materialName:any) {
+    return this.materialService.getMaterialByName(tokenAuthorization, materialName);
+  }
+
   @Post('create')
   createMaterial(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() createMaterialDto: CreateMaterialDto) {
     return this.materialService.createMaterial(tokenAuthorization, createMaterialDto);
@@ -39,3 +44,5 @@ export class MaterialController {
   }
 
 }
+
+
