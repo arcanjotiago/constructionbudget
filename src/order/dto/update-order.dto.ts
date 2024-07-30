@@ -1,6 +1,6 @@
 export class UpdateOrderDto {
     client_name: string;
-    client_number:string;
+    client_phone:string;
     address: string;
     service_type: string;
     materials: Array<string>;

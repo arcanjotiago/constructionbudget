@@ -31,35 +31,25 @@ export class OrderService {
     return tokenValidate;
     }
 
-//   async getUserEmail(email: any): Promise<any> {
-//     const checkEmailDuplicate = await this.userRepository.findOneBy( {email} );
-
-//     if(checkEmailDuplicate != null){
-//       if (checkEmailDuplicate.email == email){
-//         return {
-//           "message": "The email informed has used!, please! send the new email on requisition!",
-//           "status": 401
-//         }
-//       }
-//     }
-//     return {
-//       "message": "The send email not exist in database!",
-//       "status": 200
-//     }   
-//   }
+  async createOrder(access_token:any, createOrderDto: CreateOrderDto): Promise<Order> {
+    const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
-    async createOrder(access_token:any, createOrderDto: CreateOrderDto): Promise<Order> {
-
-    //   const validateMail = await this.getUserEmail(createUserDto.email);
-    //   if(validateMail.status == 401){
-    //     return validateMail;
-    //   };
-      
+    if (tokenValidate.status == 200){
       const order: Order = new Order();
       order.client_name = createOrderDto.client_name;
-    //   user.email = createUserDto.email;
-    //   user.password = createUserDto.password;
+      order.client_name = createOrderDto.client_phone;
+      order.address = createOrderDto.address;
+      order.service_type = createOrderDto.service_type;
+      order.labor_price = createOrderDto.labor_price;
+      order.amount = createOrderDto.amount;
+      order.materials = createOrderDto.materials;  //Parei aqui. Avaliar também questão do user ID
+
       return this.orderRepository.save(order);
+      
+    }
+    return tokenValidate;
+
+      
 
   }
 
