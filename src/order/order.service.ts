@@ -33,6 +33,7 @@ export class OrderService {
 
   async createOrder(access_token:any, createOrderDto: CreateOrderDto): Promise<Order> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
+    const getUserAccessToken:any = await this.authService.checkUserAccessToken(access_token);
     
     if (tokenValidate.status == 200){
       const order: Order = new Order();
@@ -43,14 +44,12 @@ export class OrderService {
       order.labor_price = createOrderDto.labor_price;
       order.amount = createOrderDto.amount;
       order.materials = createOrderDto.materials
-      order.user_id = 
+      order.user_id = getUserAccessToken.user_id;
 
       return this.orderRepository.save(order);
       
     }
     return tokenValidate;
-
-      
 
   }
 

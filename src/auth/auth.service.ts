@@ -84,4 +84,18 @@ export class AuthService {
       "status":401,
     }
   }
+
+  async checkUserAccessToken(access_token:any): Promise<any>{  
+    
+    if(typeof(access_token) != "string"){
+      return {
+        "message":"Acess not authorized! please, send a valid access token in header requisition!",
+        "status":401
+      }
+    }
+
+    const findTokenDatabase:any = await this.authRepository.findOneBy( {access_token} );
+
+    return findTokenDatabase;
+  }
 }
