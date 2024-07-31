@@ -37,12 +37,13 @@ export class OrderService {
     if (tokenValidate.status == 200){
       const order: Order = new Order();
       order.client_name = createOrderDto.client_name;
-      order.client_name = createOrderDto.client_phone;
+      order.client_phone = createOrderDto.client_phone;
       order.address = createOrderDto.address;
       order.service_type = createOrderDto.service_type;
       order.labor_price = createOrderDto.labor_price;
       order.amount = createOrderDto.amount;
-      order.materials = createOrderDto.materials;  //Parei aqui. Avaliar também questão do user ID
+      order.materials = createOrderDto.materials
+      order.user_id = 
 
       return this.orderRepository.save(order);
       

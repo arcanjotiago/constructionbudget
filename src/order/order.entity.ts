@@ -11,6 +11,9 @@ export class Order {
   
   @Column('text')
   client_name: string;
+
+  @Column('text')
+  client_phone: string;
   
   @Column('text')
   address: string;
@@ -19,7 +22,7 @@ export class Order {
   service_type: string;
 
   @Column('text')
-  materials: string;
+  materials: Array<string>;
 
   @Column('money')
   labor_price: string;
