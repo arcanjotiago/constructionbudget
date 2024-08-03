@@ -63,7 +63,7 @@ export class AuthService {
     }
 
     const findTokenDatabase:any = await this.authRepository.findOneBy( {access_token} );
-
+    
     if(findTokenDatabase != null){
       const calcTokenValidate = ((Date.now() - findTokenDatabase.validity) / 1000);
       
@@ -75,6 +75,7 @@ export class AuthService {
       }
       return {
         "message":"Access granted ",
+        "user_id": findTokenDatabase.user_id,
         "status":200
       }
     }
@@ -85,17 +86,4 @@ export class AuthService {
     }
   }
 
-  async checkUserAccessToken(access_token:any): Promise<any>{  
-    
-    if(typeof(access_token) != "string"){
-      return {
-        "message":"Acess not authorized! please, send a valid access token in header requisition!",
-        "status":401
-      }
-    }
-
-    const findTokenDatabase:any = await this.authRepository.findOneBy( {access_token} );
-
-    return findTokenDatabase;
-  }
 }

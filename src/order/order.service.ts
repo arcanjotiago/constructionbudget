@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpCode } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { Order } from './order.entity';
@@ -33,7 +33,6 @@ export class OrderService {
 
   async createOrder(access_token:any, createOrderDto: CreateOrderDto): Promise<Order> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
-    const getUserAccessToken:any = await this.authService.checkUserAccessToken(access_token);
     
     if (tokenValidate.status == 200){
       const order: Order = new Order();
@@ -44,20 +43,34 @@ export class OrderService {
       order.labor_price = createOrderDto.labor_price;
       order.amount = createOrderDto.amount;
       order.materials = createOrderDto.materials
-      order.user_id = getUserAccessToken.user_id;
+      order.user_id = tokenValidate.user_id;
 
       return this.orderRepository.save(order);
-      
     }
-    return tokenValidate;
 
+    return tokenValidate;
   }
 
-  async deleteOrder(access_token:any, id: string): Promise<{ affected?: number }> {
+  async deleteOrder(access_token:any, id: string, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      return this.orderRepository.delete(id);
+      const response:any = await this.orderRepository.delete(id);
+
+      if (response.affected == 1){
+        return {
+          "message": 'The order was removed successfully!',
+          "status": 200
+        }
+      };
+
+      if (response.affected == 0){
+        responseReq.status(404);
+        return {
+          "message": 'Error! The order was not removed. Please, check the orderId',
+          "status": 404
+        }
+      };
     }
     return tokenValidate; 
   }
@@ -68,10 +81,21 @@ export class OrderService {
     if (tokenValidate.status == 200){
       const order: Order = new Order();
       order.client_name = updateOrderDto.client_name;
-    //   user.email = updateUserDto.email;
-    //   user.password = updateUserDto.password;
-    //   user.access_token = updateUserDto.access_token;
-      return this.orderRepository.update(id, order)
+      order.client_phone = updateOrderDto.client_phone;
+      order.address = updateOrderDto.address;
+      order.service_type = updateOrderDto.service_type;
+      order.labor_price = updateOrderDto.labor_price;
+      order.amount = updateOrderDto.amount;
+      order.materials = updateOrderDto.materials
+
+      const response:any = await this.orderRepository.update(id, order);
+
+      if (response.affected == 1){
+        return {
+          "message": 'The order was updated successfully!',
+          "status": 200
+        }
+      };
     }
     return tokenValidate; 
   }

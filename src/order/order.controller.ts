@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Headers, Patch, Post, Put } from '@nestjs/common';
+import { Controller, Get, Header, Headers, Patch, Post, Put, Res } from '@nestjs/common';
 import { Body } from '@nestjs/common';
 import { Delete } from '@nestjs/common';
 import { Param } from '@nestjs/common';
@@ -29,8 +29,8 @@ export class OrderController {
   }
 
   @Delete(':id')
-  deleteOrder(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: string) {
-    return this.orderService.deleteOrder(tokenAuthorization, id);
+  deleteOrder(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: string, @Res({ passthrough: true }) responseReq) {
+    return this.orderService.deleteOrder(tokenAuthorization, id, responseReq);
   }
 
   @Put(':id')
