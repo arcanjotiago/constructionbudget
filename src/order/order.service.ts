@@ -75,7 +75,7 @@ export class OrderService {
     return tokenValidate; 
   }
   
-  async updateOrder(access_token:any, id: any, updateOrderDto: UpdateOrderDto): Promise<any> {
+  async updateOrder(access_token:any, id: any, updateOrderDto: UpdateOrderDto, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
@@ -96,6 +96,18 @@ export class OrderService {
           "status": 200
         }
       };
+
+      if (response.affected == 0){
+        responseReq.status(304);
+        return {
+          "message": 'Error! The order was not updated!',
+          "status": 304
+        }
+      };
+
+
+
+
     }
     return tokenValidate; 
   }

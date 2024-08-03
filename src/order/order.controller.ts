@@ -34,8 +34,8 @@ export class OrderController {
   }
 
   @Put(':id')
-  updateOrder(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.updateOrder(tokenAuthorization, id, updateOrderDto);
+  updateOrder(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateOrderDto: UpdateOrderDto, @Res({ passthrough: true }) responseReq) {
+    return this.orderService.updateOrder(tokenAuthorization, id, updateOrderDto, responseReq);
   }
 
 }
