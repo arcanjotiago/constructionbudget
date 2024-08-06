@@ -34,13 +34,13 @@ export class MaterialController {
   }
 
   @Delete(':id')
-  deleteMaterial(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: string) {
-    return this.materialService.deleteMaterial(tokenAuthorization, id);
+  deleteMaterial(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: string, @Res({ passthrough: true }) responseReq) {
+    return this.materialService.deleteMaterial(tokenAuthorization, id, responseReq);
   }
 
   @Put(':id')
-  updateMaterial(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateMaterialDto: UpdateMaterialDto) {
-    return this.materialService.updateMaterial(tokenAuthorization, id, updateMaterialDto);
+  updateMaterial(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateMaterialDto: UpdateMaterialDto, @Res({ passthrough: true }) responseReq) {
+    return this.materialService.updateMaterial(tokenAuthorization, id, updateMaterialDto, responseReq);
   }
 
 }

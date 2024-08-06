@@ -104,10 +104,6 @@ export class OrderService {
           "status": 304
         }
       };
-
-
-
-
     }
     return tokenValidate; 
   }

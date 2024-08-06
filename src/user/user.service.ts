@@ -47,7 +47,7 @@ export class UserService {
     }   
   }
     
-    async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
 
       const validateMail = await this.getUserEmail(createUserDto.email);
       if(validateMail.status == 401){
@@ -63,16 +63,31 @@ export class UserService {
     // return tokenValidate;
   }
 
-  async deleteUser(access_token:any, id: string): Promise<{ affected?: number }> {
+  async deleteUser(access_token:any, id: string, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      return this.userRepository.delete(id);
+      const response:any = await this.userRepository.delete(id);
+
+      if (response.affected == 1){
+        return {
+          "message": `The user was removed successfully!`,
+          "status": 200
+        }
+      };
+
+      if (response.affected == 0){
+        responseReq.status(404);
+        return {
+          "message": 'Error! The user was not removed. Please, check the userId',
+          "status": 404
+        }
+      };
     }
     return tokenValidate; 
   }
   
-  async updateUser(access_token:any, id: any, updateUserDto: UpdateUserDto): Promise<any> {
+  async updateUser(access_token:any, id: any, updateUserDto: UpdateUserDto, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
@@ -81,7 +96,22 @@ export class UserService {
       user.email = updateUserDto.email;
       user.password = updateUserDto.password;
       user.access_token = updateUserDto.access_token;
-      return this.userRepository.update(id, user)
+      const response:any = await this.userRepository.update(id, user)
+
+      if (response.affected == 1){
+        return {
+          "message": `The user was updated successfully!`,
+          "status": 200
+        }
+      };
+
+      if (response.affected == 0){
+        responseReq.status(304);
+        return {
+          "message": 'Error! The user was not updated!',
+          "status": 304
+        }
+      };
     }
     return tokenValidate; 
   }

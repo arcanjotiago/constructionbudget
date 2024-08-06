@@ -59,16 +59,31 @@ export class MaterialService {
     return tokenValidate;
   }
 
-  async deleteMaterial(access_token:any, id: string): Promise<{ affected?: number }> {
+  async deleteMaterial(access_token:any, id: string, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      return this.materialRepository.delete(id);
+      const response:any = await this.materialRepository.delete(id);
+      
+      if (response.affected == 1){
+        return {
+          "message": 'The material was removed successfully!',
+          "status": 200
+        }
+      };
+
+      if (response.affected == 0){
+        responseReq.status(404);
+        return {
+          "message": 'Error! The material was not removed. Please, check the materialId',
+          "status": 404
+        }
+      }; 
     }
     return tokenValidate; 
   }
   
-  async updateMaterial(access_token:any, id: any, updateMaterialDto: UpdateMaterialDto): Promise<any> {
+  async updateMaterial(access_token:any, id: any, updateMaterialDto: UpdateMaterialDto, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
@@ -82,9 +97,17 @@ export class MaterialService {
       if(response.affected == 1){
         return {
           "status": 200,
-          "message": `O Update do item ${material.name} foi realizado com sucesso!`
+          "message": `The material ${material.name} was updated successfully!!`
         }
       }
+
+      if (response.affected == 0){
+        responseReq.status(304);
+        return {
+          "message": `Error! The material ${material.name} was not updated!`,
+          "status": 304
+        }
+      };
 
     }
     return tokenValidate; 

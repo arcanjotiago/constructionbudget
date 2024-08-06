@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Headers, Patch, Post, Put } from '@nestjs/common';
+import { Controller, Get, Headers, Post, Put, Res } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Body } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -28,13 +28,13 @@ export class UserController {
   }
 
   @Delete(':id')
-  deleteUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: string) {
-    return this.userService.deleteUser(tokenAuthorization, id);
+  deleteUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: string, @Res({ passthrough: true }) responseReq) {
+    return this.userService.deleteUser(tokenAuthorization, id, responseReq);
   }
 
   @Put(':id')
-  updateUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(tokenAuthorization, id, updateUserDto);
+  updateUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id: any, @Body() updateUserDto: UpdateUserDto, @Res({ passthrough: true }) responseReq) {
+    return this.userService.updateUser(tokenAuthorization, id, updateUserDto, responseReq);
   }
 
 }
