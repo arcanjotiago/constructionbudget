@@ -43,18 +43,24 @@ export class ReportService {
     if (tokenValidate.status == 200){
       
       const response:any = await this.orderRepository.query(`SELECT * FROM public.order WHERE created_at::timestamp::date = '${date.date}' `)
-
       let calc = 0;
-      // Aqui vou ter que varrer o array retornado e somar o campo amount
+
       for(let i=0; i < response.length; i++){
-        // const x = +response[i].amount;
-        // calc = ( calc + x );
-        console.log(response[i].amount);
+        const currency  = response[i].amount;
+        const number = Number(currency.replace(/[^0-9.-]+/g,""));
+        calc = ( calc + number );
       }
 
-
+      const options:any = { style: 'currency', currency: 'USD' };
+      const formatter = new Intl.NumberFormat('en-US', options);
+      const result = formatter.format(calc);
+      
+      return {
+        "Title": `The total profi for period ${date.date}`,
+        "Total": result
+      };
       // return calc;
-      return response;
+      // return response;
     }
     
     return tokenValidate;
