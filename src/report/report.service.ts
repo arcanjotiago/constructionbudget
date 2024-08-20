@@ -37,30 +37,29 @@ export class ReportService {
     return tokenValidate;
   }
 
-  async postReportCosts(access_token:any, date:any): Promise<any> {
+  async postReportCosts(access_token:any, reportData:any): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
       
-      const response:any = await this.orderRepository.query(`SELECT * FROM public.order WHERE created_at::timestamp::date = '${date.date}' `)
-      let calc = 0;
-
-      for(let i=0; i < response.length; i++){
-        const currency  = response[i].amount;
-        const number = Number(currency.replace(/[^0-9.-]+/g,""));
-        calc = ( calc + number );
+      if(reportData.reportType == 'day'){
+        const response:any = await this.orderRepository.query(`SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date = '${reportData.date}' `)
+        
+        return response[0].sum;
+      }
+      
+      if(reportData.reportType == 'month'){
+        const response:any = await this.orderRepository.query(`SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date >= '${reportData.initialDate}' AND created_at::timestamp::date <= '${reportData.finalDate}' `)
+        
+        return response[0].sum;
       }
 
-      const options:any = { style: 'currency', currency: 'USD' };
-      const formatter = new Intl.NumberFormat('en-US', options);
-      const result = formatter.format(calc);
-      
-      return {
-        "Title": `The total profi for period ${date.date}`,
-        "Total": result
-      };
-      // return calc;
-      // return response;
+      if(reportData.reportType == 'year'){
+        const response:any = await this.orderRepository.query(`SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date >= '${reportData.initialDate}' AND created_at::timestamp::date <= '${reportData.finalDate}' `)
+        
+        return response[0].sum;
+      }
+
     }
     
     return tokenValidate;

@@ -15,8 +15,8 @@ export class ReportController {
   }
 
   @Post('costs')
-  postReportCosts(@Headers('tokenAuthorization') tokenAuthorization:any, @Query() date:any) {
-    return this.reportService.postReportCosts(tokenAuthorization, date);
+  postReportCosts(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() reportData:any) {
+    return this.reportService.postReportCosts(tokenAuthorization, reportData);
   }
 
 }
