@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post, Query} from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Res} from '@nestjs/common';
 import { Param } from '@nestjs/common';
 import { ReportService } from './report.service';
 
@@ -15,8 +15,8 @@ export class ReportController {
   }
 
   @Post('costs')
-  postReportCosts(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() reportData:any) {
-    return this.reportService.postReportCosts(tokenAuthorization, reportData);
+  postReportCosts(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() reportData:any, @Res({ passthrough: true }) responseReq) {
+    return this.reportService.postReportCosts(tokenAuthorization, reportData, responseReq);
   }
 
 }
