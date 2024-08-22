@@ -20,6 +20,9 @@ export class User {
   password: string;
 
   @Column('text')
+  role: string;
+
+  @Column('text')
   @OneToMany(() => Auth, (auth: Auth) => auth.user_id)
   access_token: Auth[];
 

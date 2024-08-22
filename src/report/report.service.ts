@@ -86,6 +86,6 @@ export class ReportService {
     return tokenValidate;
   }
 
-  //Editar endpont acima, para funcionar apenas com a role ADM
+  //Editar endpont acima, para funcionar apenas com a role ADM. Terei que pesquisar se o token passado pertence a um user adm
 
 }
