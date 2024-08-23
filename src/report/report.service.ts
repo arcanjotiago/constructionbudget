@@ -2,6 +2,7 @@ import { Injectable, Inject} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { Order } from 'src/order/order.entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ReportService {
@@ -9,6 +10,7 @@ export class ReportService {
     @Inject('ORDER_REPOSITORY')
     private orderRepository: Repository<Order>,
     private authService: AuthService,
+    private userService: UserService,
   ) {}
 
   async getReportByUser(access_token:any, user_id: any): Promise<any> {
@@ -41,7 +43,16 @@ export class ReportService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      
+      const checkRoleUser:any = await this.userService.getUserId(access_token, tokenValidate.user_id);
+
+      if(checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to access this endpoint`,
+          "status": 401
+        }
+      }
+
       if(reportData.reportType == 'day'){
         const response:any = await this.orderRepository.query(`SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date = '${reportData.date}' `)
         
@@ -85,7 +96,5 @@ export class ReportService {
     
     return tokenValidate;
   }
-
-  //Editar endpont acima, para funcionar apenas com a role ADM. Terei que pesquisar se o token passado pertence a um user adm
 
 }

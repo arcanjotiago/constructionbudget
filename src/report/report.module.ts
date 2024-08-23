@@ -5,11 +5,13 @@ import { AuthModule } from 'src/auth/auth.module';
 import { ReportController } from './report.controller';
 import { ReportService } from './report.service';
 import { orderProviders } from 'src/order/order.providers';
+import { UserModule } from 'src/user/user.module';
+import { userProviders } from 'src/user/user.providers';
 
 @Module({
-  imports: [DatabaseModule, AuthModule],
+  imports: [DatabaseModule, AuthModule, UserModule],
   controllers:[ReportController],
-  providers: [ReportService, ...orderProviders, ...authProviders],
+  providers: [ReportService, ...orderProviders, ...authProviders, ...userProviders],
   exports:[ReportService]
 })
 export class ReportModule {}
