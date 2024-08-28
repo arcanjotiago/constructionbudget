@@ -35,13 +35,28 @@ export class OrderService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
+      let splitMaterialIds = '';
+      let resultSplit = ''
+      
+      for(let i=0; i<createOrderDto.materials.length; i++){
+        
+          resultSplit = resultSplit + splitMaterialIds.concat(`'`, createOrderDto.materials[i], `'`, `,`) 
+      }
+
+      const listMaterialIds = resultSplit.substring(0, resultSplit.length - 1) 
+      const calcValueMaterials:any = await this.orderRepository.query(`SELECT SUM(value) FROM public.material WHERE id IN (${listMaterialIds}) `)
+
+      const materialValue = calcValueMaterials[0].sum ;
+      const convertMaterialValue =  materialValue.replace("R$", '').replace(",", '.');
+      const calcAmount:any = (parseFloat(createOrderDto.labor_price)) + (parseFloat(convertMaterialValue));
+      
       const order: Order = new Order();
       order.client_name = createOrderDto.client_name;
       order.client_phone = createOrderDto.client_phone;
       order.address = createOrderDto.address;
       order.service_type = createOrderDto.service_type;
       order.labor_price = createOrderDto.labor_price;
-      order.amount = createOrderDto.amount;
+      order.amount =  calcAmount;
       order.materials = createOrderDto.materials
       order.user_id = tokenValidate.user_id;
 
