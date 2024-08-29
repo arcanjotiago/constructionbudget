@@ -12,16 +12,27 @@ export class UserService {
     private authService: AuthService,
   ) {}
 
-  async getUser(access_token:any): Promise<any> {
+  async getUser(access_token:any, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
+      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+
+      if(checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to access this endpoint`,
+          "status": 401
+        }
+      }
+
       return this.userRepository.find(); 
     }
+
     return tokenValidate;
   }
 
-  async getUserId(access_token:any, id: any): Promise<User> {
+  async getUserId(access_token:any, id: any): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
@@ -47,26 +58,51 @@ export class UserService {
     }   
   }
     
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(access_token:any, createUserDto: CreateUserDto, responseReq): Promise<any> {
+    const tokenValidate:any = await this.authService.checkAccessToken(access_token);
 
+    if (tokenValidate.status == 200){
       const validateMail = await this.getUserEmail(createUserDto.email);
       if(validateMail.status == 401){
         return validateMail;
       };
       
+      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+      console.log(checkRoleUser.role)
+
+      if(createUserDto.role != 'user' && checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to perform this action!`,
+          "status": 401
+        }
+      }
+
       const user: User = new User();
       user.name = createUserDto.name;
       user.email = createUserDto.email;
       user.password = createUserDto.password;
+      user.role = createUserDto.role;
       return this.userRepository.save(user);
 
-    // return tokenValidate;
+    }
+    return tokenValidate; 
   }
 
   async deleteUser(access_token:any, id: string, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
+      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+
+      if(checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to access this endpoint`,
+          "status": 401
+        }
+      }
+      
       const response:any = await this.userRepository.delete(id);
 
       if (response.affected == 1){
@@ -83,6 +119,7 @@ export class UserService {
           "status": 404
         }
       };
+
     }
     return tokenValidate; 
   }
@@ -91,6 +128,16 @@ export class UserService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
+      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+
+      if(checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to access this endpoint`,
+          "status": 401
+        }
+      }
+           
       const user: User = new User();
       user.name = updateUserDto.name;
       user.email = updateUserDto.email;

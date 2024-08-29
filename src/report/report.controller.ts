@@ -10,8 +10,8 @@ export class ReportController {
   ) {}
 
   @Get(':userid')
-  getReportByUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('userid') userId:any) {
-    return this.reportService.getReportByUser(tokenAuthorization, userId);
+  getReportByUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('userid') userId:any, @Res({ passthrough: true }) responseReq) {
+    return this.reportService.getReportByUser(tokenAuthorization, userId, responseReq);
   }
 
   @Post('costs')

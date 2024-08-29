@@ -13,10 +13,20 @@ export class ReportService {
     private userService: UserService,
   ) {}
 
-  async getReportByUser(access_token:any, user_id: any): Promise<any> {
+  async getReportByUser(access_token:any, user_id: any, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
+      const checkRoleUser:any = await this.userService.getUserId(access_token, tokenValidate.user_id);
+
+      if(checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to access this endpoint`,
+          "status": 401
+        }
+      }
+
       if(user_id == ':userid'){
         return {
           "message":"Please, inform the user id!",

@@ -13,8 +13,8 @@ export class UserController {
   ) {}
 
   @Get('/')
-  getUser(@Headers('tokenAuthorization') tokenAuthorization:any):any {
-    return this.userService.getUser(tokenAuthorization);  
+  getUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Res({ passthrough: true }) responseReq):any {
+    return this.userService.getUser(tokenAuthorization, responseReq);  
   }
   
   @Get(':id')
@@ -23,8 +23,8 @@ export class UserController {
   }
 
   @Post('create')
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
+  createUser(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() createUserDto: CreateUserDto, @Res({ passthrough: true }) responseReq) {
+    return this.userService.createUser(tokenAuthorization, createUserDto, responseReq);
   }
 
   @Delete(':id')
