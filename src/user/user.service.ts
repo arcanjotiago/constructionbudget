@@ -143,7 +143,7 @@ export class UserService {
       user.email = updateUserDto.email;
       user.password = updateUserDto.password;
       user.access_token = updateUserDto.access_token;
-      user.role = updateUserDto.role; //adicionar validação para role //administrator ou user
+      user.role = updateUserDto.role;
       const response:any = await this.userRepository.update(id, user)
 
       if (response.affected == 1){
@@ -163,6 +163,5 @@ export class UserService {
     }
     return tokenValidate; 
   }
-
 
 }

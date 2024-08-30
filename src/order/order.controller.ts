@@ -13,9 +13,9 @@ export class OrderController {
     private readonly orderService:OrderService
   ) {}
 
-  @Get('/') //o get all orders deve estar disponível somente para o adm
-  getOrder(@Headers('tokenAuthorization') tokenAuthorization:any):any {
-    return this.orderService.getOrder(tokenAuthorization);  
+  @Get('/')
+  getOrder(@Headers('tokenAuthorization') tokenAuthorization:any, @Res({ passthrough: true }) responseReq):any {
+    return this.orderService.getOrder(tokenAuthorization, responseReq);  
   }
   
   @Get(':id')

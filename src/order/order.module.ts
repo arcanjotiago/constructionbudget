@@ -6,7 +6,6 @@ import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { orderProviders } from './order.providers';
 import { UserModule } from 'src/user/user.module';
-
 @Module({
   imports: [DatabaseModule, AuthModule, UserModule],
   controllers:[OrderController],

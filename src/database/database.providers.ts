@@ -4,7 +4,6 @@ import { Auth } from 'src/auth/auth.entity';
 import { Order } from 'src/order/order.entity';
 import { Material } from 'src/material/material.entity';
 
-
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',

@@ -9,11 +9,11 @@ export class  InitialMigration implements MigrationInterface {
             CREATE TABLE "user"(
                     id uuid DEFAULT uuid_generate_v4() NOT NULL,
                     created_at timestamptz DEFAULT now() NULL,
-                    "name" text NOT NULL,
+                    name text NOT NULL,
                     email text NOT NULL,
-                    "password" text NOT NULL,
+                    password text NOT NULL,
                     access_token text NULL,
-                    role text NOT NULL,
+                    role text NULL,
                     CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY (id)
             )
         `);

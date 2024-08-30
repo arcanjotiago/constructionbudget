@@ -1,9 +1,10 @@
-import { Injectable, Inject, HttpCode } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class OrderService {
@@ -11,12 +12,23 @@ export class OrderService {
     @Inject('ORDER_REPOSITORY')
     private orderRepository: Repository<Order>,
     private authService: AuthService,
+    private userService: UserService,
   ) {}
 
-  async getOrder(access_token:any): Promise<any> {
+  async getOrder(access_token:any, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
+      const checkRoleUser:any = await this.userService.getUserId(access_token, tokenValidate.user_id);
+
+      if(checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to access this endpoint`,
+          "status": 401
+        }
+      }
+      
       return this.orderRepository.find(); 
     }
     return tokenValidate;

@@ -6,7 +6,6 @@ import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
 import { MaterialService } from './material.service';
 
-
 @Controller('material')
 export class MaterialController {
   constructor(

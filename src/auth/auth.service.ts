@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, Put } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {v4 as uuidv4} from 'uuid';
 import { AuthDto } from './dto/auth.dto';
 import { Auth } from './auth.entity';
@@ -24,10 +24,9 @@ export class AuthService {
       emailDatabase = userDatabase.email;
       passwordDatabase = userDatabase.password;
     } catch(error){
+        throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Error when check your email in database. Please, check your email is correct!' })
+      }
        
-      throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Error when check your email in database. Please, check your email is correct!' })
-    }
-  
     if(emailDatabase === authDto.email && passwordDatabase === authDto.password){
       const genTokenLogin:any = uuidv4();
     
@@ -44,13 +43,16 @@ export class AuthService {
 
       return {
         "message":"Login sucessfull!",
-        "statusCode": 201,
+        "status": 201,
         "access_token":user.access_token,
         "expires_at":"24 Hrs"
       }
     }
     
-    return {"message": "Your credentials is incorect. Please try again!", "statusCode": 401}
+    return {
+      "message": "Your credentials is incorect. Please try again!",
+       "status": 401
+    }
   }
 
   async checkAccessToken(access_token:any): Promise<any>{  

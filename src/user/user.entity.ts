@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, Timestamp, OneToMany } from 'typeorm';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { Auth } from '../auth/auth.entity';
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
