@@ -16,7 +16,7 @@ export class UserService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+      const checkRoleUser:any = await this.getUserRole(access_token, tokenValidate.user_id);
 
       if(checkRoleUser.role != 'administrator'){
         responseReq.status(401);
@@ -32,14 +32,33 @@ export class UserService {
     return tokenValidate;
   }
 
-  async getUserId(access_token:any, id: any): Promise<any> {
+  async getUserId(access_token:any, id: any, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
+      const checkRoleUser:any = await this.getUserRole(access_token, tokenValidate.user_id);
+
+      if(checkRoleUser.role != 'administrator'){
+        responseReq.status(401);
+        return{
+          "message": `Access denied. You must be an administrator to access this endpoint`,
+          "status": 401
+        }
+      }
+
       return this.userRepository.findOneBy({ id });
     }
     return tokenValidate;
-    }
+  }
+
+  async getUserRole(access_token:any, id: any): Promise<any> {
+      const tokenValidate:any = await this.authService.checkAccessToken(access_token);
+      
+      if (tokenValidate.status == 200){
+        return this.userRepository.findOneBy({ id });
+      }
+      return tokenValidate;
+  }
 
   async getUserEmail(email: any): Promise<any> {
     const checkEmailDuplicate = await this.userRepository.findOneBy( {email} );
@@ -62,12 +81,7 @@ export class UserService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
 
     if (tokenValidate.status == 200){
-      const validateMail = await this.getUserEmail(createUserDto.email);
-      if(validateMail.status == 401){
-        return validateMail;
-      };
-      
-      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+      const checkRoleUser:any = await this.getUserRole(access_token, tokenValidate.user_id);
       console.log(checkRoleUser.role)
 
       if(createUserDto.role != 'user' && checkRoleUser.role != 'administrator'){
@@ -77,6 +91,13 @@ export class UserService {
           "status": 401
         }
       }
+
+      
+      const validateMail = await this.getUserEmail(createUserDto.email);
+      if(validateMail.status == 401){
+        return validateMail;
+      };
+      
 
       const user: User = new User();
       user.name = createUserDto.name;
@@ -93,7 +114,7 @@ export class UserService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+      const checkRoleUser:any = await this.getUserRole(access_token, tokenValidate.user_id);
 
       if(checkRoleUser.role != 'administrator'){
         responseReq.status(401);
@@ -128,7 +149,7 @@ export class UserService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      const checkRoleUser:any = await this.getUserId(access_token, tokenValidate.user_id);
+      const checkRoleUser:any = await this.getUserRole(access_token, tokenValidate.user_id);
 
       if(checkRoleUser.role != 'administrator'){
         responseReq.status(401);

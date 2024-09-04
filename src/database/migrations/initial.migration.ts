@@ -32,7 +32,7 @@ export class  InitialMigration implements MigrationInterface {
         await queryRunner.query(
             `CREATE TABLE "order"(
                 id uuid DEFAULT uuid_generate_v4() NOT NULL,
-                created_at timestamptz now() NULL,
+                created_at timestamptz DEFAULT now() NULL,
                 client_name text NULL,
                 client_phone text NULL,
                 address text NULL,

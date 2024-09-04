@@ -30,6 +30,14 @@ $ npm install
     - CREATE INDEX material_name_index ON "material" (name)
     - CREATE INDEX access_token_index ON "auth" (access_token) 
 
+#To show all indexes on query tool use the query below:
+SELECT indexname AS index_name,
+       tablename AS table_name
+FROM pg_indexes
+WHERE schemaname = 'public';
+
+
+
 ## Running the app
 ```terminal
 # development

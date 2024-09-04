@@ -17,7 +17,7 @@ export class ReportService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      const checkRoleUser:any = await this.userService.getUserId(access_token, tokenValidate.user_id);
+      const checkRoleUser:any = await this.userService.getUserRole(access_token, tokenValidate.user_id);
 
       if(checkRoleUser.role != 'administrator'){
         responseReq.status(401);
@@ -53,7 +53,7 @@ export class ReportService {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      const checkRoleUser:any = await this.userService.getUserId(access_token, tokenValidate.user_id);
+      const checkRoleUser:any = await this.userService.getUserRole(access_token, tokenValidate.user_id);
 
       if(checkRoleUser.role != 'administrator'){
         responseReq.status(401);

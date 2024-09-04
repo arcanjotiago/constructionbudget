@@ -1,0 +1,811 @@
+{
+	"info": {
+		"_postman_id": "0ab7ba07-7caf-4aef-b248-073b897ea6b5",
+		"name": "budgetConstruction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18979764"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user01@budget.com\",\r\n    \"password\": \"0000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth ADM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@budget.com\",\r\n    \"password\": \"0000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "list all orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/order/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{orderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_name\": \"clientNumber--\",\r\n    \"client_phone\":\"+550000000000\",\r\n    \"address\": \"Chinatawn, R B, N 100, São Paulo\",\r\n    \"service_type\": \"budget\",\r\n    \"materials\": [\r\n        \"9a637327-a9a0-43d3-b095-0607070c1ae4\",\r\n        \"92fed6c1-af69-48ea-8a02-62e98a391c1f\",\r\n        \"d08fe6cb-bbb5-4d68-abd5-e5c4af138c14\"\r\n    ],\r\n    \"labor_price\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/order/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete order",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/order/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{oderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update order",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_name\": \"clientNumber01\",\r\n    \"client_phone\":\"+550000000010\",\r\n    \"address\": \"Chinatawn, R B, N 100, São Paulo\",\r\n    \"service_type\": \"budget\",\r\n    \"materials\": [\r\n        \"9a637327-a9a0-43d3-b095-0607070c1ae4\",\r\n        \"92fed6c1-af69-48ea-8a02-62e98a391c1f\",\r\n        \"d08fe6cb-bbb5-4d68-abd5-e5c4af138c14\"\r\n    ],\r\n    \"labor_price\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/order/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "eb9c4164-c2f4-46b3-abfa-2c769f35d176"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "material",
+			"item": [
+				{
+					"name": "list all materials",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/material",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"material"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "material by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/material/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"material",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{materialId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get material by name",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/material/name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"material",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create material",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"material04\",\r\n    \"description\": \"material with description\",\r\n    \"value\": 400,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/material/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"material",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete material",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/material/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"material",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "ee39ef3c-6921-4742-8b74-2d4902af63c1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update material",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"material02\",\r\n    \"description\": \"material with description\",\r\n    \"value\": 200,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/material/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"material",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "92fed6c1-af69-48ea-8a02-62e98a391c1f"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "report",
+			"item": [
+				{
+					"name": "report by userId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/report/:userid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"report",
+								":userid"
+							],
+							"variable": [
+								{
+									"key": "userid",
+									"value": "d304797f-2b6c-452f-b442-6dc3222e46c6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report total costs",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "/* \r\nBy day\r\n{\r\n    \"reportType\":\"day\",\r\n    \"date\":\"2024-08-02\"\r\n}\r\n\r\nBy month\r\n{\r\n\"reportType\": \"month\",\r\n\"initialDate\": \"2024-08-01\",\r\n\"finalDate\": \"2024-08-31\"\r\n}\r\n\r\nBy year\r\n{\r\n    \"reportType\":\"year\",\r\n    \"initialDate\":\"2024-01-01\",\r\n    \"finalDate\": \"2024-12-31\"\r\n}\r\n*/",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/report/costs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"report",
+								"costs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user managment",
+			"item": [
+				{
+					"name": "list all users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "44be2db3-e8fb-4117-b727-068d70302531"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"seller03\",\r\n    \"email\": \"seller03@budget.com\",\r\n    \"password\": \"0000000\",\r\n    \"role\":\"user\" // user | administrator\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3e13c8e6-f08d-44df-93ce-a82c9f59c863"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "tokenAuthorization",
+								"value": "{{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"seller01\",\r\n    \"email\": \"seller01@budget.com\",\r\n    \"password\": \"0000000\",\r\n    \"role\": \"user\" // user | administrator\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "d304797f-2b6c-452f-b442-6dc3222e46c6"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

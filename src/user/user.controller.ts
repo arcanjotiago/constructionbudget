@@ -18,8 +18,8 @@ export class UserController {
   }
   
   @Get(':id')
-  getUserId(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id:any) {
-    return this.userService.getUserId(tokenAuthorization, id);
+  getUserId(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id:any, @Res({ passthrough: true }) responseReq) {
+    return this.userService.getUserId(tokenAuthorization, id, responseReq);
   }
 
   @Post('create')
