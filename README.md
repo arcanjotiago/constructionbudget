@@ -18,26 +18,27 @@ Here we have a some modules that allows the user to create a budgets orders for 
 - Only user with role "administrator" can access the report module.
 
 ## Endpoints 
+```terminal
 -GET /status  
 
-User managment
+**User managment**
 -POST /user/create  
 -GET /user (Get all users) 
 -GET /user/:id  
 -DEL /user/:id  
 -PUT /user/:id  
 
-Login
+**Login**
 -POST /auth (login)  
 
-Order
+**Order**
 -GET /order (list all orders)
 -GET /order/:id
 -POST /order/create
 -DELETE /order/:id
 -PUT /order/:id
 
-Material
+**Material**
 -GET /material (list all materials)
 -GET /material/:id
 -POST /material/name (Get material by name description)
@@ -45,21 +46,26 @@ Material
 -DELETE /material/:id
 -PUT /material/:id
 
-Report
+**Report**
 -GET /report/:userid (Get reports by userId)
 -POST /report/costs (Get reports by Day, Month, Year)
+```
 
 ## Building migration
-- After run initial migration, executing in your database that following comands for create the following index:
+After run initial migration, executing in your database that following comands for create the following index:
+```terminal
     - CREATE INDEX user_id_index ON "order" (user_id)
     - CREATE INDEX material_name_index ON "material" (name)
     - CREATE INDEX access_token_index ON "auth" (access_token) 
+```
 
 #To show all indexes on query tool use the comand below:
+```terminal
 SELECT indexname AS index_name,
        tablename AS table_name
 FROM pg_indexes
 WHERE schemaname = 'public';
+```
 
 ## Additional information
 The file "budgetConstruction.postman_collection.json" contains the postman collection this endpoints listed above.
@@ -74,3 +80,4 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
