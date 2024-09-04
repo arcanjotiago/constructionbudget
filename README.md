@@ -21,24 +21,24 @@ Here we have a some modules that allows the user to create a budgets orders for 
 ```terminal
 -GET /status  
 
-**User managment**
+USER MANAGMENT
 -POST /user/create  
 -GET /user (Get all users) 
 -GET /user/:id  
 -DEL /user/:id  
 -PUT /user/:id  
 
-**Login**
+LOGIN
 -POST /auth (login)  
 
-**Order**
+ORDER
 -GET /order (list all orders)
 -GET /order/:id
 -POST /order/create
 -DELETE /order/:id
 -PUT /order/:id
 
-**Material**
+MATERIAL
 -GET /material (list all materials)
 -GET /material/:id
 -POST /material/name (Get material by name description)
@@ -46,7 +46,7 @@ Here we have a some modules that allows the user to create a budgets orders for 
 -DELETE /material/:id
 -PUT /material/:id
 
-**Report**
+REPORT
 -GET /report/:userid (Get reports by userId)
 -POST /report/costs (Get reports by Day, Month, Year)
 ```
@@ -59,7 +59,7 @@ After run initial migration, executing in your database that following comands f
     - CREATE INDEX access_token_index ON "auth" (access_token) 
 ```
 
-#To show all indexes on query tool use the comand below:
+To show all indexes on query tool use the comand below:
 ```terminal
 SELECT indexname AS index_name,
        tablename AS table_name
