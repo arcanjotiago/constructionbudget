@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
 import {v4 as uuidv4} from 'uuid';
 import { AuthDto } from './dto/auth.dto';
 import { Auth } from './auth.entity';
@@ -7,12 +7,16 @@ import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class AuthService {
+  
+  // private readonly logger = new Logger('AuthService');
+  
   constructor(
     @Inject('AUTH_REPOSITORY')
     private authRepository: Repository<Auth>,
     @Inject('USER_REPOSITORY')
     private userRepository: Repository<User>,
   ) {}
+  
 
   async postAuth(authDto: AuthDto): Promise<any> {
     let emailDatabase;
@@ -20,6 +24,7 @@ export class AuthService {
     let userDatabase;
 
     try{
+      // this.logger.log('Searching user email on database...');
       userDatabase = await this.userRepository.findOneBy({email: authDto.email}); 
       emailDatabase = userDatabase.email;
       passwordDatabase = userDatabase.password;

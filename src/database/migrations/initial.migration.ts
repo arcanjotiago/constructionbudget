@@ -7,7 +7,7 @@ export class  InitialMigration implements MigrationInterface {
         await queryRunner.query(
             `
             CREATE TABLE "user"(
-                    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+                    id uuid DEFAULT gen_random_uuid() NOT NULL,
                     created_at timestamptz DEFAULT now() NULL,
                     name text NOT NULL,
                     email text NOT NULL,
@@ -20,7 +20,7 @@ export class  InitialMigration implements MigrationInterface {
         
         await queryRunner.query(
             `CREATE TABLE "auth"(
-                id uuid DEFAULT uuid_generate_v4() NOT NULL,
+                id uuid DEFAULT gen_random_uuid() NOT NULL,
                 created_at timestamptz DEFAULT now() NULL,
                 access_token text NULL,
                 validity numeric NULL,
@@ -31,7 +31,7 @@ export class  InitialMigration implements MigrationInterface {
 
         await queryRunner.query(
             `CREATE TABLE "order"(
-                id uuid DEFAULT uuid_generate_v4() NOT NULL,
+                id uuid DEFAULT gen_random_uuid() NOT NULL,
                 created_at timestamptz DEFAULT now() NULL,
                 client_name text NULL,
                 client_phone text NULL,
@@ -47,7 +47,7 @@ export class  InitialMigration implements MigrationInterface {
 
         await queryRunner.query(
             `CREATE TABLE "material"(
-                id uuid DEFAULT uuid_generate_v4() NOT NULL,
+                id uuid DEFAULT gen_random_uuid() NOT NULL,
                 created_at timestamptz DEFAULT now() NULL,
                 name text NULL,
                 value money NULL,
@@ -56,6 +56,18 @@ export class  InitialMigration implements MigrationInterface {
                 CONSTRAINT "PK_cace4a159ff9f2512dd42373765" PRIMARY KEY (id)
             )
         `);
+
+        await queryRunner.query(
+            `CREATE INDEX access_token ON auth (access_token)`
+        );
+
+        await queryRunner.query( 
+            `CREATE INDEX material_name_index ON material (name)`,
+        );
+
+        await queryRunner.query( 
+            `CREATE INDEX user_id_index ON order (user_id)`,
+        );
         
     }
 
