@@ -45,13 +45,13 @@ Here we have a some modules that allows the user to create a budgets orders for 
 - `DELETE` /material/:id
 - `PUT` /material/:id
 
-*Note:* The endpoint `GET material/name` has query parameter *name*
+`*` The endpoint `GET material/name` has query parameter *name*
 
 > REPORTS
 - `GET` /report/:userid
 - `GET` /report/costs *
 
-*Note:* The endpoint `/report/costs` has query parameters *reportType | date | initialDate | finalDate* 
+`*` The endpoint `/report/costs` has query parameters *reportType | date | initialDate | finalDate* 
 
 # Installation
 > Before your install modules and dependencies and run the migration, you must setup the `.env` file. This file will setup your connection with the database.
