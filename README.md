@@ -18,7 +18,7 @@ Here we have a some modules that allows the user to create a budgets orders for 
 - Only user with role "administrator" can access the report module.
 
 # Endpoints 
-> `GET` /status  
+*`GET` /status*  
 
 > USER MANAGMENT
 - `POST` /user/create  
@@ -40,14 +40,16 @@ Here we have a some modules that allows the user to create a budgets orders for 
 > MATERIAL
 - `GET` /material
 - `GET` /material/:id
-- `GET` /material/name *?name*
+- `GET` /material/name
 - `POST` /material/create
 - `DELETE` /material/:id
 - `PUT` /material/:id
+*Note:* The endpoint `GET material/name` has query parameter *name*
 
 > REPORTS
 - `GET` /report/:userid
-- `GET` /report/costs *?reportType?date?initialDate?finalDate* 
+- `GET` /report/costs *
+*Note:* The endpoint `/report/costs` has query parameters *reportType | date | initialDate | finalDate* 
 
 # Installation
 > Before your install modules and dependencies and run the migration, you must setup the `.env` file. This file will setup your connection with the database.
@@ -70,4 +72,4 @@ $ npm run test:watch
 ```
 
 # Additional information
-> The file `budgetConstruction.postman_collection.json` contains the postman collection this endpoints listed above.
+*The file `budgetConstruction.postman_collection.json` contains the postman collection this endpoints listed above.*
