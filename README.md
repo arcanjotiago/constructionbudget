@@ -44,11 +44,13 @@ Here we have a some modules that allows the user to create a budgets orders for 
 - `POST` /material/create
 - `DELETE` /material/:id
 - `PUT` /material/:id
+
 *Note:* The endpoint `GET material/name` has query parameter *name*
 
 > REPORTS
 - `GET` /report/:userid
 - `GET` /report/costs *
+
 *Note:* The endpoint `/report/costs` has query parameters *reportType | date | initialDate | finalDate* 
 
 # Installation
