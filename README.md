@@ -57,20 +57,20 @@ Here we have a some modules that allows the user to create a budgets orders for 
 > Before your install modules and dependencies and run the migration, you must setup the `.env` file. This file will setup your connection with the database.
 
 ```
-$ npm install
-$ npm run migration:run
+npm install
+npm run migration:run
 ```
 *The command migration:run will create all tables in your database.* 
 
 # Running the app or testing
 ## Development
 ```
-$ npm run start:dev
+npm run start:dev
 ```
 
 ## Testing
 ```
-$ npm run test:watch
+npm run test:watch
 ```
 
 # Additional information
