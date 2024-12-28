@@ -15,8 +15,13 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "OK!"', () => {
-      expect(appController.getStatus()).toBe('OK!');
+    it('should return OK!', () => {
+      expect(appController.getStatus()).toMatchObject(
+        {
+          "message":'OK!',
+          "status": 200
+        }
+      );
     });
   });
 });
