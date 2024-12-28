@@ -1,7 +1,5 @@
-import { Controller, Get, Headers, Post, Put, Res} from '@nestjs/common';
-import { Body } from '@nestjs/common';
-import { Delete } from '@nestjs/common';
-import { Param } from '@nestjs/common';
+import {Controller, Get, Headers, Post, Put, Query, Res} from '@nestjs/common';
+import { Body, Delete, Param } from '@nestjs/common';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
 import { MaterialService } from './material.service';
@@ -13,18 +11,18 @@ export class MaterialController {
   ) {}
 
   @Get('/')
-  getMaterial(@Headers('tokenAuthorization') tokenAuthorization:any):any {
+  getMaterial(@Headers('tokenAuthorization') tokenAuthorization:any) {
     return this.materialService.getMaterial(tokenAuthorization);  
   }
   
+  @Get('name')
+  getMaterialByName(@Headers('tokenAuthorization') tokenAuthorization:any, @Query('name') materialName:string) {
+    return this.materialService.getMaterialByName(tokenAuthorization, materialName);
+  }
+
   @Get(':id')
   getMaterialId(@Headers('tokenAuthorization') tokenAuthorization:any, @Param('id') id:any) {
     return this.materialService.getMaterialId(tokenAuthorization, id);
-  }
-
-  @Post('name')
-  getMaterialByName(@Headers('tokenAuthorization') tokenAuthorization:any, @Body() materialName:any) {
-    return this.materialService.getMaterialByName(tokenAuthorization, materialName);
   }
 
   @Post('create')

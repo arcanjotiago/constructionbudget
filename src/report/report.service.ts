@@ -49,7 +49,7 @@ export class ReportService {
     return tokenValidate;
   }
 
-  async postReportCosts(access_token:any, reportData:any, responseReq): Promise<any> {
+  async getReportCosts(access_token:any, reportType:string, date:string, initialDate:string, finalDate:string, responseReq): Promise<any> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
@@ -63,8 +63,17 @@ export class ReportService {
         }
       }
 
-      if(reportData.reportType == 'day'){
-        const response:any = await this.orderRepository.query(`SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date = '${reportData.date}' `)
+      if(reportType == 'day'){
+        if(date == undefined){
+          return{
+            "message": `The field 'date' must be filed with the date in format yyyy-mm-dd. Please send a valid date!`,
+            "status": 400
+          }
+        };
+        
+        const response:any = await this.orderRepository.query(
+          `SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date = '${date}' `
+        )
         
         if(response[0].sum == null){
           responseReq.status(404);
@@ -76,8 +85,18 @@ export class ReportService {
         };
       }
       
-      if(reportData.reportType == 'month'){
-        const response:any = await this.orderRepository.query(`SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date >= '${reportData.initialDate}' AND created_at::timestamp::date <= '${reportData.finalDate}' `)
+
+      if(reportType == 'month'){
+        if(initialDate == undefined || finalDate == undefined){
+          return{
+            "message": `The field 'initialDate' and 'finalDate' must be filed with the date in format yyyy-mm-dd. Please send a valid date!`,
+            "status": 400
+          }
+        }
+        
+        const response:any = await this.orderRepository.query(
+          `SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date >= '${initialDate}' AND created_at::timestamp::date <= '${finalDate}' `
+        )
         
         if(response[0].sum == null){
           responseReq.status(404);
@@ -89,8 +108,18 @@ export class ReportService {
         };
       }
 
-      if(reportData.reportType == 'year'){
-        const response:any = await this.orderRepository.query(`SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date >= '${reportData.initialDate}' AND created_at::timestamp::date <= '${reportData.finalDate}' `)
+
+      if(reportType == 'year'){
+        if(initialDate == undefined || finalDate == undefined){
+          return{
+            "message": `The field 'initialDate' and 'finalDate' must be filed with the date in format yyyy-mm-dd. Please send a valid date!`,
+            "status": 400
+          }
+        }
+        
+        const response:any = await this.orderRepository.query(
+          `SELECT SUM(labor_price) FROM public.order WHERE created_at::timestamp::date >= '${initialDate}' AND created_at::timestamp::date <= '${finalDate}' `
+        )
         
         if(response[0].sum == null){
           responseReq.status(404);
@@ -100,6 +129,11 @@ export class ReportService {
         return {
           "message":`The total profit per year is ${response[0].sum}`
         };
+      }
+
+      return {
+        "message": `The field 'reportType' must be filed with the (day, year or month). Please send a valid type!`,
+        "status": 400 
       }
 
     }

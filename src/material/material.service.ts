@@ -1,5 +1,5 @@
 import { Injectable, Inject} from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
@@ -32,14 +32,17 @@ export class MaterialService {
     return tokenValidate;
   }
 
-  async getMaterialByName(access_token:any, materialName: any): Promise<any> {
+  async getMaterialByName(access_token:any, materialName: string): Promise<Material> {
     const tokenValidate:any = await this.authService.checkAccessToken(access_token);
     
     if (tokenValidate.status == 200){
-      const getMaterialDatabase:any = await this.materialRepository.query(`SELECT * FROM public.material WHERE public.material.name like '%${materialName.name}%' `)
-
+      const getMaterialDatabase:any = await this.materialRepository.findBy({
+        name: Like(`%${materialName}%`) 
+      })
+      
       return getMaterialDatabase;    
     }
+
     return tokenValidate;
   }
 

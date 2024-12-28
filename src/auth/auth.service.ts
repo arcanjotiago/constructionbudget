@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable} from '@nestjs/common';
 import {v4 as uuidv4} from 'uuid';
 import { AuthDto } from './dto/auth.dto';
 import { Auth } from './auth.entity';
@@ -7,8 +7,6 @@ import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class AuthService {
-  
-  // private readonly logger = new Logger('AuthService');
   
   constructor(
     @Inject('AUTH_REPOSITORY')
@@ -24,12 +22,13 @@ export class AuthService {
     let userDatabase;
 
     try{
-      // this.logger.log('Searching user email on database...');
       userDatabase = await this.userRepository.findOneBy({email: authDto.email}); 
       emailDatabase = userDatabase.email;
       passwordDatabase = userDatabase.password;
     } catch(error){
-        throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Error when check your email in database. Please, check your email is correct!' })
+        throw new BadRequestException('Something bad happened', {
+          cause: new Error(), description: 'Error when check your email in database. Please, check your email is correct!'
+        })
       }
        
     if(emailDatabase === authDto.email && passwordDatabase === authDto.password){
