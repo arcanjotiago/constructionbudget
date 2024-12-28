@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0ab7ba07-7caf-4aef-b248-073b897ea6b5",
+		"_postman_id": "6c454320-b988-45b7-9570-6d456961ca8a",
 		"name": "budgetConstruction",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18979764"
@@ -162,7 +162,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "{{orderId}}"
+									"value": "58c2a7a5-62ca-4da1-8ef1-52f3344e2a68"
 								}
 							]
 						}
@@ -359,24 +359,15 @@
 				{
 					"name": "Get material by name",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "tokenAuthorization",
 								"value": "{{access_token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"02\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:3000/material/name",
+							"raw": "http://localhost:3000/material/name?name=04",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -385,6 +376,12 @@
 							"path": [
 								"material",
 								"name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "04"
+								}
 							]
 						}
 					},
@@ -470,7 +467,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "ee39ef3c-6921-4742-8b74-2d4902af63c1"
+									"value": "{{materialId}}"
 								}
 							]
 						}
@@ -510,7 +507,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "92fed6c1-af69-48ea-8a02-62e98a391c1f"
+									"value": "{{materialId}}"
 								}
 							]
 						}
@@ -546,7 +543,7 @@
 							"variable": [
 								{
 									"key": "userid",
-									"value": "d304797f-2b6c-452f-b442-6dc3222e46c6"
+									"value": "{{userId}}"
 								}
 							]
 						}
@@ -567,8 +564,11 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "tokenAuthorization",
@@ -585,7 +585,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/report/costs",
+							"raw": "http://localhost:3000/report/costs?reportType=day&date=2024-08-02",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -594,6 +594,26 @@
 							"path": [
 								"report",
 								"costs"
+							],
+							"query": [
+								{
+									"key": "reportType",
+									"value": "day"
+								},
+								{
+									"key": "date",
+									"value": "2024-08-02"
+								},
+								{
+									"key": "initialDate",
+									"value": "2024-08-01",
+									"disabled": true
+								},
+								{
+									"key": "finalDate",
+									"value": "2024-08-31",
+									"disabled": true
+								}
 							]
 						}
 					},

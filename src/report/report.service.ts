@@ -27,9 +27,9 @@ export class ReportService {
         }
       }
 
-      if(user_id == ':userid'){
+      if(user_id == ':userid' || user_id == undefined || user_id == 'null'){
         return {
-          "message":"Please, inform the user id!",
+          "message":"Error! Please, inform the user id on parameters requisition!",
           "status":400
         }
       }
@@ -55,7 +55,7 @@ export class ReportService {
     if (tokenValidate.status == 200){
       const checkRoleUser:any = await this.userService.getUserRole(access_token, tokenValidate.user_id);
 
-      if(checkRoleUser.role != 'administrator'){
+      if (checkRoleUser.role != 'administrator'){
         responseReq.status(401);
         return{
           "message": `Access denied. You must be an administrator to access this endpoint`,
@@ -63,7 +63,14 @@ export class ReportService {
         }
       }
 
-      if(reportType == 'day'){
+      if (reportType == undefined){
+        return {
+          "message": `The field 'reportType' must be filed with the (day, year or month). Please send a valid type!`,
+          "status": 400 
+        }
+      }
+
+      if (reportType == 'day'){
         if(date == undefined){
           return{
             "message": `The field 'date' must be filed with the date in format yyyy-mm-dd. Please send a valid date!`,
@@ -86,7 +93,7 @@ export class ReportService {
       }
       
 
-      if(reportType == 'month'){
+      if (reportType == 'month'){
         if(initialDate == undefined || finalDate == undefined){
           return{
             "message": `The field 'initialDate' and 'finalDate' must be filed with the date in format yyyy-mm-dd. Please send a valid date!`,
@@ -109,7 +116,7 @@ export class ReportService {
       }
 
 
-      if(reportType == 'year'){
+      if (reportType == 'year'){
         if(initialDate == undefined || finalDate == undefined){
           return{
             "message": `The field 'initialDate' and 'finalDate' must be filed with the date in format yyyy-mm-dd. Please send a valid date!`,
@@ -129,11 +136,6 @@ export class ReportService {
         return {
           "message":`The total profit per year is ${response[0].sum}`
         };
-      }
-
-      return {
-        "message": `The field 'reportType' must be filed with the (day, year or month). Please send a valid type!`,
-        "status": 400 
       }
 
     }
