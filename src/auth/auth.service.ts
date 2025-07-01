@@ -54,7 +54,7 @@ export class AuthService {
     }
     
     return {
-      "message": "Your credentials is incorect. Please try again!",
+      "message": "Your credentials are incorect. Please try again!",
        "status": 401
     }
   }
